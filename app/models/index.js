@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
     {
         host: config.HOST,
         dialect: config.dialect,
-        operatorsAliases: false,
+        operatorsAliases: 0,
 
         pool: {
             max: config.pool.max,
@@ -32,6 +32,7 @@ db.role.belongsToMany(db.user, {
     foreignKey: "roleId",
     otherKey: "userId"
 });
+
 db.user.belongsToMany(db.role, {
     through: "user_roles",
     foreignKey: "userId",

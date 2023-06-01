@@ -22,10 +22,14 @@ const Role = db.role;
 
 // db.sequelize.sync();
 // force: true will drop the table if it already exists
-db.sequelize.sync({force: false}).then(() => {
-    console.log('Resync Database with { force: false }');
-    // initial();
+
+db.sequelize.sync({force: true}).then(() => {
+    console.log('Resync Database');
+    initial();
 });
+
+
+// db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
@@ -58,3 +62,5 @@ function initial() {
         name: "admin"
     });
 }
+
+// https://www.bezkoder.com/node-js-jwt-authentication-postgresql/
