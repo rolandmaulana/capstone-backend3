@@ -3,7 +3,10 @@ module.exports = (sequelize, Sequelize) => {
         city: {
             type: Sequelize.STRING
         },
-        duration: {
+        totalDay: {
+            type: Sequelize.INTEGER
+        },
+        userAge: {
             type: Sequelize.INTEGER
         },
         bahari: {
@@ -21,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
         pusatPerbelanjaan: {
             type: Sequelize.BOOLEAN
         },
-        tempatPerbelanjaan: {
+        tempatIbadah: {
             type: Sequelize.BOOLEAN
         }
         

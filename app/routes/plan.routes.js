@@ -11,11 +11,11 @@ module.exports = function(app) {
         next();
     });
 
-    app.post(
-      "/user/:userId/createplan", 
-      [authJwt.verifyToken],
-      controller.createplan
-    );
+    //app.post(
+      //"/:userId/createplan", 
+      //[authJwt.verifyToken],
+      //controller.createplan
+    //);
 
     
 };

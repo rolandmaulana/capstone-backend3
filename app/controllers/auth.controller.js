@@ -13,9 +13,9 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
+    age: req.body.age,
     isMale: req.body.isMale,
-    hobby: req.body.hobby,
-    from: req.body.from,
+    elementary: req.body.elementary,
     password: bcrypt.hashSync(req.body.password, 8)
   })
   .then(user => {
@@ -29,18 +29,18 @@ exports.signup = (req, res) => {
       })
       .then(roles => {
         user.setRoles(roles).then(() => {
-          res.send({ message: "User registered successfully!" });
+          res.json({ message: "User registered successfully!" });
         });
       });
     } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User registered successfully!" });
+          res.json({ message: "User registered successfully!" });
         });
       }
   })
   .catch(err => {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ message: err.message });
   });
 };
 
@@ -52,7 +52,7 @@ exports.signin = (req, res) => {
   })
   .then(user => {
     if (!user) {
-      return res.status(404).send({ message: "Email Not found." });
+      return res.status(404).json({ message: "Email Not found." });
     }
 
     var passwordIsValid = bcrypt.compareSync(
@@ -61,7 +61,7 @@ exports.signin = (req, res) => {
     );
 
     if (!passwordIsValid) {
-      return res.status(401).send({
+      return res.status(401).json({
         accessToken: null,
         message: "Invalid Password!"
       });
@@ -77,17 +77,19 @@ exports.signin = (req, res) => {
       for (let i = 0; i < roles.length; i++) {
         authorities.push("ROLE_" + roles[i].name.toUpperCase());
       }
-      res.status(200).send({
+      res.status(200).json({
         id: user.id,
         username: user.username,
         email: user.email,
+        age: user.age,
         isMale: user.isMale,
+        hobby: user.hobby,
         roles: authorities,
         accessToken: token
       });
     });
   })
   .catch(err => {
-    res.status(500).send({ message: err.message });
+    res.status(500).json({ message: err.message });
   });
 };
