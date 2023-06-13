@@ -35,7 +35,10 @@ exports.signup = (req, res) => {
     } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.json({ message: "User registered successfully!" });
+          res.json({ 
+            status: true,
+            message: "User registered successfully!" 
+          });
         });
       }
   })
@@ -52,7 +55,10 @@ exports.signin = (req, res) => {
   })
   .then(user => {
     if (!user) {
-      return res.status(404).json({ message: "Email Not found." });
+      return res.status(404).json({ 
+        status: false,
+        message: "Login failed, Email Not found!" 
+      });
     }
 
     var passwordIsValid = bcrypt.compareSync(
@@ -62,8 +68,8 @@ exports.signin = (req, res) => {
 
     if (!passwordIsValid) {
       return res.status(401).json({
-        accessToken: null,
-        message: "Invalid Password!"
+        status: false,
+        message: "Login failed, Invalid Password!"
       });
     }
 
@@ -78,14 +84,18 @@ exports.signin = (req, res) => {
         authorities.push("ROLE_" + roles[i].name.toUpperCase());
       }
       res.status(200).json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        age: user.age,
-        isMale: user.isMale,
-        hobby: user.hobby,
-        roles: authorities,
-        accessToken: token
+        status: true,
+        message: "Login successful!",
+        data:{
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          age: user.age,
+          isMale: user.isMale,
+          hobby: user.hobby,
+          roles: authorities,
+          accessToken: token
+        }
       });
     });
   })
